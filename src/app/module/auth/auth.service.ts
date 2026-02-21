@@ -50,6 +50,9 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
   }
 };
 
+
+// Login User 
+
 interface ILoginUserPayload {
   email: string;
   password: string;
