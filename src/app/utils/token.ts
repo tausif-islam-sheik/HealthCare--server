@@ -17,7 +17,6 @@ const getAccessToken = (payload: JwtPayload) => {
 };
 
 
-
 const getRefreshToken = (payload: JwtPayload) => {
   const refreshToken = jwtUtils.createToken(
     payload,
@@ -26,7 +25,6 @@ const getRefreshToken = (payload: JwtPayload) => {
   );
   return refreshToken;
 };
-
 
 
 const setAccessTokenCookie = (res: Response, token: string) => {
@@ -41,7 +39,6 @@ const setAccessTokenCookie = (res: Response, token: string) => {
 };
 
 
-
 const setRefreshTokenCookie = (res: Response, token: string) => {
   CookieUtils.setCookie(res, "refreshToken", token, {
     httpOnly: true,
@@ -52,7 +49,6 @@ const setRefreshTokenCookie = (res: Response, token: string) => {
     maxAge: 60 * 60 * 60 * 24 * 7,
   });
 };
-
 
 
 const setBetterAuthSessionCookie = (res: Response, token: string) => {
