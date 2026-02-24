@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import status from "http-status";
 import { Role, Speciality } from "../../../generated/prisma/client";
 import AppError from "../../errorHelpers/AppError";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
-import { ICreateDoctorPayload } from "./user.interface";
+import { ICreateAdminPayload, ICreateDoctorPayload } from "./user.interface";
+
+
 
 const createDoctor = async (payload: ICreateDoctorPayload) => {
   const specialities: Speciality[] = [];
@@ -15,7 +18,10 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
       },
     });
     if (!speciality) {
-       throw new AppError(status.NOT_FOUND, `Specialty with id ${specialityId} not found`);
+      throw new AppError(
+        status.NOT_FOUND,
+        `Specialty with id ${specialityId} not found`,
+      );
     }
     specialities.push(speciality);
   }
@@ -27,7 +33,7 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
   });
 
   if (userExists) {
-     throw new AppError(status.CONFLICT, "User with this email already exists");
+    throw new AppError(status.CONFLICT, "User with this email already exists");
   }
 
   const userData = await auth.api.signUpEmail({
@@ -123,6 +129,54 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
   }
 };
 
+
+const createAdmin = async (payload: ICreateAdminPayload) => {
+  //TODO: Validate who is creating the admin user. Only super admin can create admin user and only super admin can create super admin user but admin user cannot create super admin user
+
+  const userExists = await prisma.user.findUnique({
+    where: {
+      email: payload.admin.email,
+    },
+  });
+
+  if (userExists) {
+    throw new AppError(status.CONFLICT, "User with this email already exists");
+  }
+
+  const { admin, role, password } = payload;
+
+  const userData = await auth.api.signUpEmail({
+    body: {
+      ...admin,
+      password,
+      role,
+      needPasswordChange: true,
+    },
+  });
+
+  try {
+    const adminData = await prisma.admin.create({
+      data: {
+        userId: userData.user.id,
+        ...admin,
+      },
+    });
+
+    return adminData;
+  } catch (error: any) {
+    console.log("Error creating admin: ", error);
+    await prisma.user.delete({
+      where: {
+        id: userData.user.id,
+      },
+    });
+    throw error;
+  }
+};
+
+
+
 export const UserService = {
   createDoctor,
+  createAdmin
 };
