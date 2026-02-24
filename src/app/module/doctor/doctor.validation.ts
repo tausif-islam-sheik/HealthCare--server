@@ -53,10 +53,10 @@ export const updateDoctorZodSchema = z.object({
         .optional(),
     })
     .optional(),
-  specialties: z
+  specialities: z
     .array(
       z.object({
-        specialtyId: z.uuid("Specialty ID must be a valid UUID"),
+        specialityId: z.uuid("Speciality ID must be a valid UUID"),
         shouldDelete: z.boolean("shouldDelete must be a boolean").optional(),
       }),
     )
