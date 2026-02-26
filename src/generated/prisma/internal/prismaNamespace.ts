@@ -1819,6 +1819,7 @@ export const DoctorScalarFieldEnum = {
   contactNumber: 'contactNumber',
   address: 'address',
   isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
   registrationNumber: 'registrationNumber',
   experience: 'experience',
   gender: 'gender',

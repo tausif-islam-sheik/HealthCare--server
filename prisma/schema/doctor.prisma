@@ -1,21 +1,22 @@
 model Doctor {
-    id                  String   @id @default(uuid(7))
+    id                  String    @id @default(uuid(7))
     name                String
-    email               String   @unique
+    email               String    @unique
     profilePhoto        String?
     contactNumber       String?
     address             String?
-    isDeleted           Boolean  @default(false)
-    registrationNumber  String   @unique
-    experience          Int      @default(0)
+    isDeleted           Boolean   @default(false)
+    deletedAt           DateTime?
+    registrationNumber  String    @unique
+    experience          Int       @default(0)
     gender              Gender
     appointmentFee      Float
     qualification       String
     currentWorkingPlace String
     designation         String
-    averageRating       Float    @default(0.0)
-    createdAt           DateTime @default(now())
-    updatedAt           DateTime @updatedAt
+    averageRating       Float     @default(0.0)
+    createdAt           DateTime  @default(now())
+    updatedAt           DateTime  @updatedAt
 
     // Relations
     userId          String             @unique

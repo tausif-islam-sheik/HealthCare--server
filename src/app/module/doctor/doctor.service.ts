@@ -5,6 +5,7 @@ import { IUpdateDoctorPayload } from "./doctor.interface";
 import { UserStatus } from "../../../generated/prisma/enums";
 
 
+
 const getAllDoctors = async () => {
   const doctors = await prisma.doctor.findMany({
     include: {
@@ -157,8 +158,6 @@ const deleteDoctor = async (id: string) => {
 
   return { message: "Doctor deleted successfully" };
 };
-
-
 
 export const DoctorService = {
   getAllDoctors,
