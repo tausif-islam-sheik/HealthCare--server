@@ -3,10 +3,11 @@ import { specialityService } from "./speciality.service";
 import { catchAsync } from "../../shared/catchAsync";
 import { sendResponse } from "../../shared/sendResponse";
 
-
-
 const createSpeciality = catchAsync(async (req: Request, res: Response) => {
-  const payload = req.body;
+  const payload = {
+    ...req.body,
+    icon: req.file?.path,
+  };
 
   const result = await specialityService.createSpeciality(payload);
 
@@ -18,9 +19,6 @@ const createSpeciality = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
-
-
 const getAllSpecialities = catchAsync(async (req: Request, res: Response) => {
   const result = await specialityService.getAllSpecialities();
 
@@ -31,9 +29,6 @@ const getAllSpecialities = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
-
-
 
 const updateSpeciality = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -52,9 +47,6 @@ const updateSpeciality = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
-
-
 const deleteSpeciality = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -67,8 +59,6 @@ const deleteSpeciality = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
-
 
 export const specialityController = {
   createSpeciality,
