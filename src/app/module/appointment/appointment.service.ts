@@ -1,5 +1,4 @@
 import status from "http-status";
-// import { uuidv7 } from "zod/mini";
 import { v7 as uuidv7 } from "uuid";
 import { PaymentStatus, Role } from "../../../generated/prisma/enums";
 import { envVars } from "../../config/env";
@@ -461,6 +460,7 @@ const cancelUnpaidAppointments = async () => {
     }
   });
 };
+
 
 
 export const AppointmentService = {
